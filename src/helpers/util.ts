@@ -8,6 +8,10 @@ export function isObject(val: any): val is Object {
     return val !== null && typeof val === "object"
 }
 
+export function isPlainObject(val: any): val is Object {
+    return toString.call(val) === "[object Object]"
+}
+
 export function encode(val: string): string {
     return encodeURIComponent(val)
         .replace(/%40/g, "@")
