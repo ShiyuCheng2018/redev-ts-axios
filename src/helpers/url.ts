@@ -1,16 +1,18 @@
 import { isDate, isObject, encode } from "./util"
 
-export function buildURL(url: string, params?: any): string {
-    if (params) {
+export function buildURL(url: string, params?: any) {
+    if (!params) {
         return url
     }
+
     const parts: string[] = []
+
     Object.keys(params).forEach((key) => {
-        const val = params[key]
+        let val = params[key]
         if (val === null || typeof val === "undefined") {
             return
         }
-        let values = []
+        let values: string[]
         if (Array.isArray(val)) {
             values = val
             key += "[]"
@@ -23,16 +25,18 @@ export function buildURL(url: string, params?: any): string {
             } else if (isObject(val)) {
                 val = JSON.stringify(val)
             }
-            parts.push(`${key}=${encode(val)}`)
+            parts.push(`${encode(key)}=${encode(val)}`)
         })
     })
 
     let serializedParams = parts.join("&")
+
     if (serializedParams) {
         const markIndex = url.indexOf("#")
-        if (markIndex === -1) {
+        if (markIndex !== -1) {
             url = url.slice(0, markIndex)
         }
+
         url += (url.indexOf("?") === -1 ? "?" : "&") + serializedParams
     }
 
