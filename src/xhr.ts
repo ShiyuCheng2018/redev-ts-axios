@@ -1,9 +1,10 @@
 import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from "./types";
 import { parseHeaders } from "./helpers/headers";
+import { createError } from "./helpers/error";
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 	return new Promise((resolve, reject) => {
-		const { data = null, url, method = "GET", headers, responseType } = config;
+		const { data = null, url, method = "GET", headers, responseType, timeOut } = config;
 
 		const request = new XMLHttpRequest(); // initial a standard XMLHttpRequest
 
@@ -15,6 +16,10 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 			request.responseType = responseType;
 		}
 
+		if (timeOut) {
+			request.timeout = timeOut;
+		}
+
 		request.open(method.toUpperCase(), url, true); // set request method and config URL
 
 		request.onreadystatechange = function handleLoad() {
@@ -22,6 +27,10 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 			if (request.readyState !== 4) {
 				// if server has received
 				return null;
+			}
+
+			if (request.status === 0) {
+				return;
 			}
 
 			const responseHeaders = parseHeaders(request.getAllResponseHeaders());
@@ -35,13 +44,22 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 				config,
 				request,
 			};
-			resolve(response);
+			handleResponse(response);
+		};
+
+		request.onerror = function handleErrors() {
+			reject(createError("Network Error", config, null, request));
+		};
+
+		request.ontimeout = function handleTimeout() {
+			reject(
+				createError(`Timeout  of  ${timeOut} ms exceeded.`, config, "ECONNABORTED", request)
+			);
 		};
 
 		/*
 		 *  handle setting request header
 		 * */
-
 		Object.keys(headers).forEach((name) => {
 			if (data === null && name.toLowerCase() === "content-type") {
 				delete headers[name];
@@ -50,5 +68,21 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 			}
 		});
 		request.send(data);
+
+		function handleResponse(response: AxiosResponse): void {
+			if (response.status >= 200 && response.status < 300) {
+				resolve(response);
+			} else {
+				reject(
+					createError(
+						`Request failed with status code ${response.status}`,
+						config,
+						null,
+						request,
+						response
+					)
+				);
+			}
+		}
 	});
 }
