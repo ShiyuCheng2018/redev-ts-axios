@@ -1,4 +1,4 @@
-import axios from "../../src/index";
+import axios, { AxiosError } from "../../src/index";
 
 axios({
 	method: "get",
@@ -7,8 +7,12 @@ axios({
 	.then((res) => {
 		console.log(res);
 	})
-	.catch((e) => {
-		console.log(e);
+	.catch((e: AxiosError) => {
+		console.log(e.message);
+		console.log(e.config);
+		console.log(e.code);
+		console.log(e.request);
+		console.log(e.isAxiosError);
 	});
 
 axios({
@@ -18,8 +22,12 @@ axios({
 	.then((res) => {
 		console.log(res);
 	})
-	.catch((e) => {
-		console.log(e);
+	.catch((e: AxiosError) => {
+		console.log(e.message);
+		console.log(e.config);
+		console.log(e.code);
+		console.log(e.request);
+		console.log(e.isAxiosError);
 	});
 
 setTimeout(() => {
@@ -30,8 +38,12 @@ setTimeout(() => {
 		.then((res) => {
 			console.log(res);
 		})
-		.catch((e) => {
-			console.log(e);
+		.catch((e: AxiosError) => {
+			console.log(e.message);
+			console.log(e.config);
+			console.log(e.code);
+			console.log(e.request);
+			console.log(e.isAxiosError);
 		});
 }, 5000);
 
@@ -43,6 +55,10 @@ axios({
 	.then((res) => {
 		console.log(res);
 	})
-	.catch((e) => {
+	.catch((e: AxiosError) => {
 		console.log(e.message);
+		console.log(e.config);
+		console.log(e.code);
+		console.log(e.request);
+		console.log(e.isAxiosError);
 	});
