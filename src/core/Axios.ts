@@ -56,14 +56,12 @@ export default class Axios {
 			chain.push(interceptor);
 		});
 
-		let promise = Promise.resolve(config);
+		console.log(chain);
 
-		while (chain.length) {
-			const { resolved, rejected } = chain.shift()!;
-			promise = promise.then(resolved, rejected);
-		}
-
-		return promise;
+		return chain.reduce(
+			(acc, cur) => acc.then(cur.resolved, cur.rejected),
+			Promise.resolve(config)
+		);
 	}
 
 	get(url: string, config?: AxiosRequestConfig): AxiosPromise {
