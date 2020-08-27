@@ -1,4 +1,6 @@
 import { AxiosRequestConfig } from "../types";
+import { deepMerge, isPlainObject } from "../helpers/util";
+import { type } from "os";
 
 /***********************************************************************************************************************
  * 													strategies        												   *
@@ -14,6 +16,34 @@ function fromSecondaryField(primary: any, secondary: any): any {
 	}
 }
 
+function deepMergeField(primary: any, secondary: any): any {
+	if (isPlainObject(secondary)) {
+		return deepMerge(primary, secondary);
+	} else if (typeof secondary !== "undefined") {
+		return secondary;
+	} else if (isPlainObject(primary)) {
+		return deepMerge(primary);
+	} else if (typeof primary !== "undefined") {
+		return primary;
+	}
+}
+
+/***********************************************************************************************************************
+ * 												mapping strategies    												   *
+ * *********************************************************************************************************************/
+
+const fields = Object.create(null);
+
+const fieldKeysFromSecondary = ["url", "params", "data"];
+fieldKeysFromSecondary.forEach((key) => {
+	fields[key] = fromSecondaryField;
+});
+
+const fieldKeysDeepMerge = ["headers"];
+fieldKeysDeepMerge.forEach((key) => {
+	fields[key] = deepMergeField;
+});
+
 /***********************************************************************************************************************
  * 													main function    												   *
  * *********************************************************************************************************************/
@@ -22,13 +52,6 @@ export default function mergeConfig(primary: AxiosRequestConfig, secondary: Axio
 	if (!secondary) {
 		secondary = {};
 	}
-
-	const fields = Object.create(null);
-
-	const fieldKeysFromSecondary = ["url", "params", "data"];
-	fieldKeysFromSecondary.forEach((key) => {
-		fields[key] = fromSecondaryField;
-	});
 
 	const config = Object.create(null);
 
