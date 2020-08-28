@@ -24,7 +24,7 @@ export interface AxiosRequestConfig {
 	timeOut?: number;
 
 	transformRequest?: AxiosTransformer | AxiosTransformer[];
-	transformResponse: AxiosTransformer | AxiosTransformer[];
+	transformResponse?: AxiosTransformer | AxiosTransformer[];
 
 	[propName: string]: any;
 }
