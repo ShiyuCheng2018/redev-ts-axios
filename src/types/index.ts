@@ -22,6 +22,7 @@ export interface AxiosRequestConfig {
 	headers?: any;
 	responseType?: XMLHttpRequestResponseType; // "" | "arraybuffer" | "blob" | "document" | "json" | "text"
 	timeOut?: number;
+	withCredentials?: boolean;
 
 	transformRequest?: AxiosTransformer | AxiosTransformer[];
 	transformResponse?: AxiosTransformer | AxiosTransformer[];

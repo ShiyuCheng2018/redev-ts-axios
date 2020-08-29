@@ -12,6 +12,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 			responseType,
 			timeOut,
 			cancelToken,
+			withCredentials,
 		} = config;
 
 		const request = new XMLHttpRequest(); // initial a standard XMLHttpRequest
@@ -26,6 +27,10 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
 		if (timeOut) {
 			request.timeout = timeOut;
+		}
+
+		if (withCredentials) {
+			request.withCredentials = withCredentials;
 		}
 
 		request.open(method.toUpperCase(), url!, true); // set request method and config URL
