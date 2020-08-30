@@ -94,6 +94,7 @@
 		"commitizen": "^3.0.0",
 		"coveralls": "^3.0.2",
 		"cross-env": "^5.2.0",
+		"css-loader": "^4.2.2",
 		"cz-conventional-changelog": "^2.1.0",
 		"husky": "^1.0.1",
 		"jest": "^23.6.0",
@@ -113,6 +114,7 @@
 		"rollup-plugin-typescript2": "^0.18.0",
 		"semantic-release": "^15.9.16",
 		"shelljs": "^0.8.3",
+		"style-loader": "^1.2.1",
 		"travis-deploy-once": "^5.0.9",
 		"ts-jest": "^23.10.2",
 		"ts-loader": "^5.3.3",
@@ -128,7 +130,11 @@
 		"webpack-hot-middleware": "^2.24.3"
 	},
 	"dependencies": {
+		"@types/nprogress": "^0.2.0",
+		"atob": "^2.1.2",
 		"body-parser": "^1.18.3",
-		"express": "^4.17.1"
+		"cookie-parser": "^1.4.5",
+		"express": "^4.17.1",
+		"nprogress": "^0.2.0"
 	}
 }
