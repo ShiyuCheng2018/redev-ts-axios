@@ -23,6 +23,7 @@ export interface AxiosRequestConfig {
 	responseType?: XMLHttpRequestResponseType; // "" | "arraybuffer" | "blob" | "document" | "json" | "text"
 	timeOut?: number;
 	withCredentials?: boolean;
+	auth?: AxiosBasicCredentials;
 
 	transformRequest?: AxiosTransformer | AxiosTransformer[];
 	transformResponse?: AxiosTransformer | AxiosTransformer[];
@@ -142,4 +143,13 @@ export interface Cancel {
 
 export interface CancelStatic {
 	new (message?: string): Cancel;
+}
+
+/***********************************************************************************************************************
+ * 													HTTP Authentication 											   *
+ * *********************************************************************************************************************/
+
+export interface AxiosBasicCredentials {
+	username: string;
+	password: string;
 }

@@ -39,7 +39,7 @@ fieldKeysFromSecondary.forEach((key) => {
 	fields[key] = fromSecondaryField;
 });
 
-const fieldKeysDeepMerge = ["headers"];
+const fieldKeysDeepMerge = ["headers", "auth"];
 fieldKeysDeepMerge.forEach((key) => {
 	fields[key] = deepMergeField;
 });
