@@ -24,6 +24,7 @@ export interface AxiosRequestConfig {
 	timeOut?: number;
 	withCredentials?: boolean;
 	auth?: AxiosBasicCredentials;
+	validateStatus?: (status: number) => boolean;
 
 	transformRequest?: AxiosTransformer | AxiosTransformer[];
 	transformResponse?: AxiosTransformer | AxiosTransformer[];
