@@ -25,6 +25,7 @@ export interface AxiosRequestConfig {
 	withCredentials?: boolean;
 	auth?: AxiosBasicCredentials;
 	validateStatus?: (status: number) => boolean;
+	paramsSerializer?: (params: any) => string;
 
 	transformRequest?: AxiosTransformer | AxiosTransformer[];
 	transformResponse?: AxiosTransformer | AxiosTransformer[];
