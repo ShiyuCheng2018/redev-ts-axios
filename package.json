@@ -131,6 +131,7 @@
 	},
 	"dependencies": {
 		"@types/nprogress": "^0.2.0",
+		"atob": "^2.1.2",
 		"body-parser": "^1.18.3",
 		"cookie-parser": "^1.4.5",
 		"express": "^4.17.1",
