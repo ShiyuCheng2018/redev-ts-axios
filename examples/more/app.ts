@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "../../src/index";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import qs from "qs";
 
 /***********************************************************************************************************************
  * 													text for credentials 											   *
@@ -27,15 +28,15 @@ axios
 /***********************************************************************************************************************
  * 													text for xsrf        											   *
  * *********************************************************************************************************************/
-//
-// const instance = axios.create({
-// 	xsrfCookieName: "XSRF-TOKEN-D",
-// 	xsrfHeaderName: "X-XSRF-TOKEN-D",
-// });
-//
-// instance.get("/more/get").then((res) => {
-// 	console.log(res);
-// });
+
+const instance_xsrf = axios.create({
+	xsrfCookieName: "XSRF-TOKEN-D",
+	xsrfHeaderName: "X-XSRF-TOKEN-D",
+});
+
+instance_xsrf.get("/more/get").then((res) => {
+	console.log(res);
+});
 
 /***********************************************************************************************************************
  * 											text for download | upload 												   *
@@ -147,4 +148,46 @@ axios
 	})
 	.catch((e: AxiosError) => {
 		console.log(e.message);
+	});
+
+/***********************************************************************************************************************
+ * 											text for paramsSerializer     											   *
+ * *********************************************************************************************************************/
+
+axios
+	.get("/more/get", {
+		params: new URLSearchParams("a=b&c=d"),
+	})
+	.then((res) => {
+		console.log(res);
+	});
+
+axios
+	.get("/more/get", {
+		params: {
+			a: 1,
+			b: 2,
+			c: ["a", "b", "c"],
+		},
+	})
+	.then((res) => {
+		console.log(res);
+	});
+
+const instance_serializer = axios.create({
+	paramsSerializer(params) {
+		return qs.stringify(params, { arrayFormat: "brackets" });
+	},
+});
+
+instance_serializer
+	.get("/more/get", {
+		params: {
+			a: 1,
+			b: 2,
+			c: ["a", "b", "c"],
+		},
+	})
+	.then((res) => {
+		console.log(res);
 	});
